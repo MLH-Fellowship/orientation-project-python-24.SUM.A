@@ -34,7 +34,10 @@ data = {
 @app.route('/test')
 def hello_world():
     '''
-    Returns a JSON test message
+    Endpoint to return a JSON test message.
+
+    Returns:
+        dict: A JSON response containing a test message.
     '''
     return jsonify({"message": "Hello, World!"})
 
@@ -42,7 +45,13 @@ def hello_world():
 @app.route('/resume/experience', methods=['GET', 'POST'])
 def experience():
     '''
-    Handle experience requests
+    Endpoint to handle experience request 
+    
+    GET: Retrieves an experience based on its unique identifier (ID)
+    POST: Adds a new experience
+    
+    Returns:
+        dict: A JSON response containing an experience.
     '''
     if request.method == 'GET':
         return jsonify()
@@ -55,7 +64,13 @@ def experience():
 @app.route('/resume/education', methods=['GET', 'POST'])
 def education():
     '''
-    Handles education requests
+    Handle requests related to education information.
+    
+    GET: Retrieves an education based on its unique identifier (ID) 
+    POST: Adds a new education
+
+    Returns:
+        dict: A JSON response containing an education.
     '''
     if request.method == 'GET':
         return jsonify({})
@@ -69,7 +84,13 @@ def education():
 @app.route('/resume/skill', methods=['GET', 'POST'])
 def skill():
     '''
-    Handles Skill requests
+    Handle requests related to skill information.
+    
+    GET: Retrieves a skill based on its unique identifier (ID)    
+    POST: Adds a new skill
+
+    Returns:
+        dict: A JSON response containing a skill.
     '''
     if request.method == 'GET':
         return jsonify({})
