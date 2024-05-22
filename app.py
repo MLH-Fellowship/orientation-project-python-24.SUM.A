@@ -46,14 +46,7 @@ def experience():
     '''
 
     if request.method == "GET":
-        experiences: list[Experience] = data.get("experience", [])
-        if index := request.args.get("index") is not None:
-            try:
-                return jsonify(experiences[index])
-            except ValueError:
-                return jsonify({"error": "Invalid experience index"})
-        else:
-            return jsonify(experiences)
+        return jsonify(data.get("experience", []))
 
     if request.method == "POST":
         post_data: dict[str, str] = request.get_json()
