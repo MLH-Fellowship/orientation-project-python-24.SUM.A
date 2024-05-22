@@ -36,9 +36,9 @@ def test_experience():
 
 def test_education():
     '''
-    Add a new education and then get all educations. 
+    Add a new education and then get all educations.
     
-    Check that it returns the new education in that list
+    Check that the new education is correctly added to the list.
     '''
     example_education = {
         "course": "Engineering",
@@ -48,11 +48,23 @@ def test_education():
         "grade": "86%",
         "logo": "example-logo.png"
     }
-    item_id = app.test_client().post('/resume/education',
-                                     json=example_education).json['id']
+    post_response = app.test_client().post('/resume/education', json=example_education)
+    assert post_response.status_code == 201  
+    new_education_id = post_response.json['id']
 
-    response = app.test_client().get('/resume/education')
-    assert response.json[item_id] == example_education
+    get_response = app.test_client().get('/resume/education')
+    assert get_response.status_code == 200  
+    
+    found = False
+    for education in get_response.json:
+        if education['id'] == new_education_id:
+            for key, value in example_education.items():
+                assert education[key] == value
+            found = True
+            break
+    
+    assert found, "New education was not found in the returned list"
+
 
 
 def test_skill():

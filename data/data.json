@@ -1,0 +1,84 @@
+{
+    "experience": [
+        {
+            "title": "Software Developer",
+            "company": "A Cool Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing Python Code",
+            "logo": "example-logo.png"
+        }
+    ],
+    "education": [
+        {
+            "course": "Computer Science",
+            "school": "University of Tech",
+            "start_date": "September 2019",
+            "end_date": "July 2022",
+            "grade": "80%",
+            "logo": "example-logo.png",
+            "id": 1
+        },
+        {
+            "course": "Data Science",
+            "school": "Tech University",
+            "start_date": "August 2020",
+            "end_date": "May 2023",
+            "grade": "85%",
+            "logo": "example-logo.png",
+            "id": 2
+        },
+        {
+            "course": "Data Science",
+            "school": "Tech University",
+            "start_date": "August 2020",
+            "end_date": "May 2023",
+            "grade": "85%",
+            "logo": "example-logo.png",
+            "id": 3
+        },
+        {
+            "course": "Data Science",
+            "school": "Tech University",
+            "start_date": "August 2020",
+            "end_date": "May 2023",
+            "grade": "85%",
+            "logo": "example-logo.png",
+            "id": 4
+        },
+        {
+            "course": "Engineering",
+            "school": "NYU",
+            "start_date": "October 2022",
+            "end_date": "August 2024",
+            "grade": "86%",
+            "logo": "example-logo.png",
+            "id": 5
+        },
+        {
+            "course": "Data Science",
+            "school": "Tech University",
+            "start_date": "August 2020",
+            "end_date": "May 2023",
+            "grade": "85%",
+            "logo": "example-logo.png",
+            "id": 6
+        },
+        {
+            "course": "Engineering",
+            "school": "NYU",
+            "start_date": "October 2022",
+            "end_date": "August 2024",
+            "grade": "86%",
+            "logo": "example-logo.png",
+            "id": 7
+        }
+    ],
+    "skill": [
+        {
+            "name": "Python",
+            "proficiency": "1-2 Years",
+            "logo": "example-logo.png"
+        }
+    ]
+}

@@ -3,33 +3,11 @@ Flask Application
 '''
 from flask import Flask, jsonify, request
 from models import Experience, Education, Skill
+from utils import load_data, save_data
+
+data = load_data('data/data.json')
 
 app = Flask(__name__)
-
-data = {
-    "experience": [
-        Experience("Software Developer",
-                   "A Cool Company",
-                   "October 2022",
-                   "Present",
-                   "Writing Python Code",
-                   "example-logo.png")
-    ],
-    "education": [
-        Education("Computer Science",
-                  "University of Tech",
-                  "September 2019",
-                  "July 2022",
-                  "80%",
-                  "example-logo.png")
-    ],
-    "skill": [
-        Skill("Python",
-              "1-2 Years",
-              "example-logo.png")
-    ]
-}
-
 
 @app.route('/test')
 def hello_world():
@@ -54,16 +32,39 @@ def experience():
 
 @app.route('/resume/education', methods=['GET', 'POST'])
 def education():
-    '''
-    Handles education requests
-    '''
+    """
+    Handle education requests
+    """
     if request.method == 'GET':
-        return jsonify({})
+        # convert education data to dictionary and return as JSON
+        return jsonify([edu.__dict__ for edu in data['education']])
 
     if request.method == 'POST':
-        return jsonify({})
+        required_fields = ['course', 'school', 'start_date', 'end_date', 'grade', 'logo']
+        if not request.json:
+            return jsonify({'error': 'No data provided'}), 400
 
-    return jsonify({})
+        missing_fields = [field for field in required_fields if field not in request.json]
+        if missing_fields:
+            return jsonify({'error': f'Missing required fields: {", ".join(missing_fields)}'}), 400
+
+        # If we used database, it will generate the id for us
+        if data['education']:
+            new_id = max(edu.id for edu in data['education'] if edu.id is not None) + 1
+        else:
+            new_id = 1
+
+        new_education_data = request.json
+        new_education_data['id'] = new_id
+        new_education = Education(**new_education_data)
+
+        data['education'].append(new_education)
+        save_data('data/data.json', data)
+
+        return jsonify({'id': new_id}), 201
+    
+    return jsonify({'error': 'Method not allowed'}), 405 
+
 
 
 @app.route('/resume/skill', methods=['GET', 'POST'])
