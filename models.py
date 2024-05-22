@@ -31,7 +31,7 @@ class Education:
     end_date: str = field(default="")
     grade: str = field(default="")
     logo: str = field(default="")
-    id: int = field(default=None)
+    id: int = field(default=1)
 
 
 @dataclass
