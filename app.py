@@ -3,7 +3,7 @@ Flask Application
 '''
 from flask import Flask, jsonify, request
 from models import Experience, Education, Skill
-from utils import load_data, save_data
+from utils import load_data, save_data, generate_id
 
 data = load_data('data/data.json')
 
@@ -22,11 +22,25 @@ def experience():
     '''
     Handle experience requests
     '''
-    if request.method == 'GET':
-        return jsonify()
 
-    if request.method == 'POST':
-        return jsonify({})
+    if request.method == "GET":
+        return jsonify(data.get("experience", []))
+
+    if request.method == "POST":
+        post_data: dict[str, str] = request.get_json()
+        experiences = data.get("experience", [])
+        experiences.append(
+            Experience(
+                post_data["title"],
+                post_data["company"],
+                post_data["start_date"],
+                post_data["end_date"],
+                post_data["description"],
+                post_data["logo"],
+            )
+        )
+
+        return jsonify({"id": len(data.get("experience", [])) - 1})
 
     return jsonify({})
 
@@ -49,10 +63,7 @@ def education():
             return jsonify({'error': f'Missing required fields: {", ".join(missing_fields)}'}), 400
 
         # If we used database, it will generate the id for us
-        if data['education']:
-            new_id = max(edu.id for edu in data['education'] if edu.id is not None) + 1
-        else:
-            new_id = 1
+        new_id = generate_id(data, 'education')
 
         new_education_data = request.json
         new_education_data['id'] = new_id

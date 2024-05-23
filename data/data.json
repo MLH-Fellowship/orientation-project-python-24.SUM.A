@@ -27,51 +27,6 @@
             "grade": "85%",
             "logo": "example-logo.png",
             "id": 2
-        },
-        {
-            "course": "Data Science",
-            "school": "Tech University",
-            "start_date": "August 2020",
-            "end_date": "May 2023",
-            "grade": "85%",
-            "logo": "example-logo.png",
-            "id": 3
-        },
-        {
-            "course": "Data Science",
-            "school": "Tech University",
-            "start_date": "August 2020",
-            "end_date": "May 2023",
-            "grade": "85%",
-            "logo": "example-logo.png",
-            "id": 4
-        },
-        {
-            "course": "Engineering",
-            "school": "NYU",
-            "start_date": "October 2022",
-            "end_date": "August 2024",
-            "grade": "86%",
-            "logo": "example-logo.png",
-            "id": 5
-        },
-        {
-            "course": "Data Science",
-            "school": "Tech University",
-            "start_date": "August 2020",
-            "end_date": "May 2023",
-            "grade": "85%",
-            "logo": "example-logo.png",
-            "id": 6
-        },
-        {
-            "course": "Engineering",
-            "school": "NYU",
-            "start_date": "October 2022",
-            "end_date": "August 2024",
-            "grade": "86%",
-            "logo": "example-logo.png",
-            "id": 7
         }
     ],
     "skill": [

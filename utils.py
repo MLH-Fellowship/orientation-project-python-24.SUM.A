@@ -35,3 +35,11 @@ def save_data(filename, data):
             json.dump(json_data, file, indent=4)
     except IOError as e:
         print(f"An error occurred while writing to {filename}: {e}")
+
+def generate_id(data, model):
+    """
+    Generate a new ID for a model
+    """
+    if data[model]:
+        return max(item.id for item in data[model] if item.id is not None) + 1
+    return 1
