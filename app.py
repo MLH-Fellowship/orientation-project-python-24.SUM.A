@@ -22,11 +22,25 @@ def experience():
     '''
     Handle experience requests
     '''
-    if request.method == 'GET':
-        return jsonify()
 
-    if request.method == 'POST':
-        return jsonify({})
+    if request.method == "GET":
+        return jsonify(data.get("experience", []))
+
+    if request.method == "POST":
+        post_data: dict[str, str] = request.get_json()
+        experiences = data.get("experience", [])
+        experiences.append(
+            Experience(
+                post_data["title"],
+                post_data["company"],
+                post_data["start_date"],
+                post_data["end_date"],
+                post_data["description"],
+                post_data["logo"],
+            )
+        )
+
+        return jsonify({"id": len(data.get("experience", [])) - 1})
 
     return jsonify({})
 
