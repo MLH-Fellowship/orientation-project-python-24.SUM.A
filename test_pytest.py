@@ -28,11 +28,22 @@ def test_experience():
         "logo": "example-logo.png"
     }
 
-    item_id = app.test_client().post('/resume/experience',
-                                     json=example_experience).json['id']
-    response = app.test_client().get('/resume/experience')
-    assert response.json[item_id] == example_experience
-
+    post_response = app.test_client().post('/resume/experience', json=example_experience)
+    assert post_response.status_code == 201
+    new_experience_id = post_response.json['id']
+    
+    get_response = app.test_client().get('/resume/experience')
+    assert get_response.status_code == 200
+    
+    found = False
+    for experience in get_response.json:
+        if experience['id'] == new_experience_id:
+            for key, value in example_experience.items():
+                assert experience[key] == value
+            found = True
+            break
+        
+    assert found, "New experience was not found in the returned list"
 
 def test_education():
     '''

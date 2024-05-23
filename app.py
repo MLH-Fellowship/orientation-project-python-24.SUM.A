@@ -24,25 +24,29 @@ def experience():
     '''
 
     if request.method == "GET":
-        return jsonify(data.get("experience", []))
+        return jsonify([edu.__dict__ for edu in data['experience']])
 
     if request.method == "POST":
-        post_data: dict[str, str] = request.get_json()
-        experiences = data.get("experience", [])
-        experiences.append(
-            Experience(
-                post_data["title"],
-                post_data["company"],
-                post_data["start_date"],
-                post_data["end_date"],
-                post_data["description"],
-                post_data["logo"],
-            )
-        )
-
-        return jsonify({"id": len(data.get("experience", [])) - 1})
-
-    return jsonify({})
+        required_fields = ['title', 'company', 'start_date', 'end_date', 'description', 'logo']
+        
+        if not request.json:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        missing_fields = [field for field in required_fields if field not in request.json]
+        if missing_fields:
+            return jsonify({'error': f'Missing required fields: {", ".join(missing_fields)}'}), 400
+        
+        new_id = generate_id(data, 'experience')
+        new_experience_data = request.json
+        new_experience_data['id'] = new_id
+        new_experience = Experience(**new_experience_data)
+        
+        data['experience'].append(new_experience)
+        save_data('data/data.json', data)
+        
+        return jsonify({'id': new_id}), 201
+    
+    return jsonify({'error': 'Method not allowed'}), 405
 
 @app.route('/resume/education', methods=['GET', 'POST'])
 def education():
