@@ -4,7 +4,7 @@
 Models for the Resume API. Each class is related to
 '''
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -25,12 +25,13 @@ class Education:
     '''
     Education Class
     '''
-    course: str
-    school: str
-    start_date: str
-    end_date: str
-    grade: str
-    logo: str
+    course: str = field(default="")
+    school: str = field(default="")
+    start_date: str = field(default="")
+    end_date: str = field(default="")
+    grade: str = field(default="")
+    logo: str = field(default="")
+    id: int = field(default=1)
 
 
 @dataclass
