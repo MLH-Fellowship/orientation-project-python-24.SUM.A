@@ -34,6 +34,11 @@
             "name": "Python",
             "proficiency": "1-2 Years",
             "logo": "example-logo.png"
+        },
+        {
+            "name": "Java",
+            "proficiency": "3 Years",
+            "logo": "example-logo.png"
         }
     ]
 }

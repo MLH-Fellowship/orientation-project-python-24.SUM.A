@@ -84,7 +84,16 @@ def skill():
     Handles Skill requests
     '''
     if request.method == 'GET':
-        return jsonify({})
+        index = request.args.get("index")
+        if index != None: #check if requesting a specific index
+            if not index.isnumeric(): #is index a number
+                return jsonify("Incorrect index"), 400
+            
+            if int(index) < 0 or int(index) >= len(data.get("skill")): #check if index is inside the bounds of the list
+                return jsonify("Incorrect request, index out of bounds"), 400
+            return jsonify(data.get("skill")[int(index)]), 200
+        
+        return jsonify(data.get("skill")), 200 #return the whole list
 
     if request.method == 'POST':
         return jsonify({})
