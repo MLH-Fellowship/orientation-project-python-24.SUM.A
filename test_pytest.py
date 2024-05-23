@@ -2,6 +2,7 @@
 Tests in Pytest
 '''
 from app import app
+from utils import correct_spelling
 
 
 def test_client():
@@ -84,3 +85,12 @@ def test_skill():
 
     response = app.test_client().get('/resume/skill')
     assert response.json[item_id] == example_skill
+
+
+def test_correct_spelling():
+    '''
+    Test the correct_spelling function
+    '''
+    text = "speling"
+    expected_output = "spelling"
+    assert correct_spelling(text) == expected_output
