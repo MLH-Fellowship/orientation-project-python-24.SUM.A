@@ -34,7 +34,7 @@ def experience():
         
         missing_fields = [field for field in required_fields if field not in request.json]
         if missing_fields:
-            return jsonify({'error': f'Missing required fields: {", ".join(missing_fields)}'}), 400
+            return jsonify({'error': 'Missing required fields'}), 400
         
         new_id = generate_id(data, 'experience')
         new_experience_data = request.json
@@ -64,7 +64,7 @@ def education():
 
         missing_fields = [field for field in required_fields if field not in request.json]
         if missing_fields:
-            return jsonify({'error': f'Missing required fields: {", ".join(missing_fields)}'}), 400
+            return jsonify({'error': 'Missing required fields'}), 400
 
         # If we used database, it will generate the id for us
         new_id = generate_id(data, 'education')
