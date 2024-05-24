@@ -56,6 +56,19 @@ def get_experience(index):
     return jsonify({'error': 'Invalid Index'}), 400
 
 
+@app.route('/resume/experience/<int:index>', methods=['DELETE'])
+def delete_experience(index):
+    '''
+    Handles experience delete requests by index
+    '''
+    total_length = len(data['experience'])
+    if 0 <= index < total_length:
+        data['experience'].pop(index)
+        return jsonify({"message": "Successfully deleted"}), 200
+
+    return jsonify({"error": 'Invalid Index'}), 400
+
+
 @app.route('/resume/education', methods=['GET', 'POST'])
 def education():
     """
