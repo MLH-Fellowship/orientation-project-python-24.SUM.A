@@ -44,6 +44,18 @@ def experience():
 
     return jsonify({})
 
+
+@app.route('/resume/experience/<int:index>', methods = ['GET'])
+def get_experience(index):
+    '''
+    Handle get request for single experience by index
+    '''
+    total_length = len(data['experience'])
+    if 0 <= index < total_length:
+        return jsonify(data["experience"][index])
+    return jsonify({'error': 'Invalid Index'}), 400
+
+
 @app.route('/resume/education', methods=['GET', 'POST'])
 def education():
     """
