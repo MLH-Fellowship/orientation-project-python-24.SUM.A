@@ -50,7 +50,7 @@ def test_delete_experience():
     item_id = app.test_client().post('/resume/experience',
                                      json=example_experience).json['id']
 
-    response = app.test_client().delete('/resume/experience/' + item_id)
+    response = app.test_client().delete('/resume/experience/' + str(item_id))
     assert response.json["message"] == "Successfully deleted"
 
 
