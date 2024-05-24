@@ -52,12 +52,12 @@ def test_education():
         "logo": "example-logo.png"
     }
     post_response = app.test_client().post('/resume/education', json=example_education)
-    assert post_response.status_code == 201  
+    assert post_response.status_code == 201
     new_education_id = post_response.json['id']
 
     get_response = app.test_client().get('/resume/education')
-    assert get_response.status_code == 200  
-    
+    assert get_response.status_code == 200
+
     found = False
     for education in get_response.json:
         if education['id'] == new_education_id:
@@ -65,13 +65,19 @@ def test_education():
                 assert education[key] == value
             found = True
             break
-    
+        
     assert found, "New education was not found in the returned list"
 
-def test_skill_indexed_get(): #goes through the data and checks if it can get all the skills through indexes
+def test_skill_indexed_get():
+    '''
+    Load skill data from data.json
+
+    Check that we can get all skills through indexes
+    '''
     index = 0
     for skill in data.get("skill"):
-        assert Skill(**app.test_client().get('/resume/skill?index=%d' % index).json) == skill, "No skill or incorrect skill found at the index %d" % index
+        new_skill = Skill(**app.test_client().get(f'/resume/skill?index={index}').json)
+        assert new_skill == skill, f"No skill or incorrect skill found at the index {index}"
         index += 1
 
 def test_skill():
