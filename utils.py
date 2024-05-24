@@ -1,4 +1,7 @@
 import json
+
+from spellchecker import SpellChecker
+
 from models import Experience, Education, Skill
 
 def load_data(filename):
@@ -43,3 +46,16 @@ def generate_id(data, model):
     if data[model]:
         return max(item.id for item in data[model] if item.id is not None) + 1
     return 1
+
+def correct_spelling(text):
+    '''Corrects the spelling of the given text'''
+    spell = SpellChecker()
+    words = text.split()
+    corrected_words = []
+    for word in words:
+        if word not in spell:
+            correct_word = spell.correction(word)
+            corrected_words.append(correct_word)
+        else:
+            corrected_words.append(word)
+    return ' '.join(corrected_words)
