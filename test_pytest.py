@@ -2,7 +2,10 @@
 Tests in Pytest
 '''
 from app import app
+from models import Skill
+from utils import load_data
 
+data = load_data('data/data.json')
 
 def test_client():
     '''
@@ -65,7 +68,11 @@ def test_education():
     
     assert found, "New education was not found in the returned list"
 
-
+def test_skill_indexed_get(): #goes through the data and checks if it can get all the skills through indexes
+    index = 0
+    for skill in data.get("skill"):
+        assert Skill(**app.test_client().get('/resume/skill?index=%d' % index).json) == skill, "No skill or incorrect skill found at the index %d" % index
+        index += 1
 
 def test_skill():
     '''
