@@ -2,8 +2,9 @@
 Tests in Pytest
 '''
 from app import app
+
 from models import Skill
-from utils import load_data
+from utils import load_data, correct_spelling
 
 data = load_data('data/data.json')
 
@@ -91,3 +92,12 @@ def test_skill():
 
     response = app.test_client().get('/resume/skill')
     assert response.json[item_id] == example_skill
+
+
+def test_correct_spelling():
+    '''
+    Test the correct_spelling function
+    '''
+    text = "speling"
+    expected_output = "spelling"
+    assert correct_spelling(text) == expected_output
