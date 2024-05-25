@@ -149,6 +149,26 @@ def test_skill():
     response = app.test_client().get('/resume/skill')
     assert response.json[item_id] == example_skill
 
+def test_delete_skill():
+    '''
+    Add a new skill.
+    Delete the skill.
+    Check if it was deleted.
+    '''
+    skills_before_change = app.test_client().get('/resume/skill').json
+
+    example_skill = {
+        "name": "Go",
+        "proficiency": "1 year",
+        "logo": "example-logo.png"
+    }
+
+    item_id = app.test_client().post('/resume/skill',
+                                     json=example_skill).json['id']
+    delete_response = app.test_client().delete(f'resume/skill?index={item_id}')
+    assert delete_response.json["message"] == "Successfully deleted"
+    assert skills_before_change == app.test_client().get('/resume/skill').json
+
 
 def test_correct_spelling():
     '''
