@@ -2,8 +2,11 @@
 Tests in Pytest
 '''
 from app import app
-from utils import correct_spelling
 
+from models import Skill
+from utils import load_data, correct_spelling
+
+data = load_data('data/data.json')
 
 def test_client():
     '''
@@ -61,12 +64,12 @@ def test_education():
         "logo": "example-logo.png"
     }
     post_response = app.test_client().post('/resume/education', json=example_education)
-    assert post_response.status_code == 201  
+    assert post_response.status_code == 201
     new_education_id = post_response.json['id']
 
     get_response = app.test_client().get('/resume/education')
-    assert get_response.status_code == 200  
-    
+    assert get_response.status_code == 200
+
     found = False
     for education in get_response.json:
         if education['id'] == new_education_id:
@@ -74,7 +77,7 @@ def test_education():
                 assert education[key] == value
             found = True
             break
-    
+        
     assert found, "New education was not found in the returned list"
 
 def test_post_education_missing_fields():
@@ -93,6 +96,16 @@ def test_post_education_missing_fields():
     assert 'end_date' in response.json['error']
     assert 'grade' in response.json['error']
 
+def test_skill_indexed_get():
+    '''
+    Load skill data from data.json
+    Check that we can get all skills through indexes
+    '''
+    index = 0
+    for skill in data.get("skill"):
+        new_skill = Skill(**app.test_client().get(f'/resume/skill?index={index}').json)
+        assert new_skill == skill, f"No skill or incorrect skill found at the index {index}"
+        index += 1
 
 def test_post_experience_missing_fields():
     """Test POST request to /resume/experience with missing fields.
