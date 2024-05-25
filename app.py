@@ -98,7 +98,7 @@ def skill():
                 return jsonify("Incorrect request, index out of bounds"), 400
             return jsonify(data.get("skill")[int(index)]), 200
         
-        return jsonify({})
+        return jsonify(data.get("skill")), 200 #return the whole list
 
     if request.method == 'POST':
         return jsonify({})

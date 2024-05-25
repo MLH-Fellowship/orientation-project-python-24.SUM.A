@@ -107,6 +107,16 @@ def test_skill_indexed_get():
         assert new_skill == skill, f"No skill or incorrect skill found at the index {index}"
         index += 1
 
+def test_skill_get_all():
+    '''
+    Load skills data from data.json
+    Check that the list we get from server is the same as the local list
+    '''
+    local_skills = data.get("skill")
+    skills = app.test_client().get('/resume/skill').json
+    for i, skill in enumerate(skills):
+        assert local_skills[i] == Skill(**skill)
+
 def test_post_experience_missing_fields():
     """Test POST request to /resume/experience with missing fields.
     POST request with missing 'company' and 'start_date' fields.
