@@ -82,7 +82,7 @@ def education():
 
 
 
-@app.route('/resume/skill', methods=['GET', 'POST'])
+@app.route('/resume/skill', methods=['GET', 'POST', 'DELETE'])
 def skill():
     '''
     Handles Skill requests
@@ -113,6 +113,22 @@ def skill():
         save_data('data/data.json', data)
 
         return jsonify({'id': len(data.get("skill")) - 1}), 200
+    
+    if request.method == 'DELETE':
+        index = request.args.get("index")
+        if index is not None: #check if requesting a specific index
+            if not index.isnumeric(): #is index a number
+                return jsonify("Incorrect index"), 400
+            
+            #check if index is inside the bounds of the list
+            if int(index) < 0 or int(index) >= len(data.get("skill")): 
+                return jsonify("Incorrect request, index out of bounds"), 400
+            
+            data.get("skill").pop(int(index))
+            save_data('data/data.json', data)
+            return jsonify({"message": "Successfully deleted"}), 200
+        
+        return jsonify({"error": 'Invalid request'}), 400
 
     return jsonify({})
 
