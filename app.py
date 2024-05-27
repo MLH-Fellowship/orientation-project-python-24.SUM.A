@@ -17,7 +17,7 @@ def hello_world():
     return jsonify({"message": "Hello, World!"})
 
 
-@app.route('/resume/experience', methods=['GET', 'POST'])
+@app.route('/resume/experience', methods=['GET', 'POST', 'DELETE'])
 def experience():
     '''
     Handle experience requests
@@ -43,9 +43,23 @@ def experience():
         
         data['experience'].append(new_experience)
         save_data('data/data.json', data)
-        
         return jsonify({'id': new_id}), 201
     
+    if request.method == 'DELETE':
+        index = request.args.get("index")
+        # check index is valid number
+        if index is not None:
+            if not index.isnumeric():
+                return jsonify({"error": "Invalid Index"}), 400
+            
+        if 0 < int(index) <= len(data.get("experience")):
+            # ids in data.json are 1 indexed
+            data.get("experience").pop(int(index)-1)
+            save_data('data/data.json', data)
+            return jsonify({"message": "Successfully deleted"}), 200
+
+        return jsonify({"error": 'Invalid Index'}), 400
+
     return jsonify({'error': 'Method not allowed'}), 405
 
 
@@ -58,19 +72,6 @@ def get_experience(index):
     if 0 <= index < total_length:
         return jsonify(data["experience"][index])
     return jsonify({'error': 'Invalid Index'}), 400
-
-
-@app.route('/resume/experience/<int:index>', methods=['DELETE'])
-def delete_experience(index):
-    '''
-    Handles experience delete requests by index
-    '''
-    total_length = len(data['experience'])
-    if 0 <= index < total_length:
-        data['experience'].pop(index)
-        return jsonify({"message": "Successfully deleted"}), 200
-
-    return jsonify({"error": 'Invalid Index'}), 400
 
 
 @app.route('/resume/education', methods=['GET', 'POST'])

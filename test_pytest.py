@@ -54,6 +54,7 @@ def test_delete_experience():
     Add a new experience and then delete experience by index. 
     
     '''
+    prior_experience = app.test_client().get('resume/experience').json
     example_experience = {
         "title": "Software Developer",
         "company": "A Cooler Company",
@@ -65,8 +66,9 @@ def test_delete_experience():
     item_id = app.test_client().post('/resume/experience',
                                      json=example_experience).json['id']
 
-    response = app.test_client().delete('/resume/experience/' + str(item_id))
-    assert response.json["message"] == "Successfully deleted"
+    response = app.test_client().delete(f'/resume/experience?index={item_id}')
+    assert response.json['message'] == "Successfully deleted"
+    assert prior_experience == app.test_client().get('resume/experience').json
 
 
 def test_education():
