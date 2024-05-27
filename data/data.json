@@ -6,7 +6,71 @@
             "start_date": "October 2022",
             "end_date": "Present",
             "description": "Writing Python Code",
-            "logo": "example-logo.png"
+            "logo": "example-logo.png",
+            "id": 1
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cool Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing Python Code",
+            "logo": "example-logo.png",
+            "id": 2
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cool Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing Python Code",
+            "logo": "example-logo.png",
+            "id": 3
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cooler Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing JavaScript Code",
+            "logo": "example-logo.png",
+            "id": 4
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cooler Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing JavaScript Code",
+            "logo": "example-logo.png",
+            "id": 5
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cool Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing Python Code",
+            "logo": "example-logo.png",
+            "id": 6
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cool Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing Python Code",
+            "logo": "example-logo.png",
+            "id": 7
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cooler Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing JavaScript Code",
+            "logo": "example-logo.png",
+            "id": 8
         }
     ],
     "education": [
@@ -27,12 +91,44 @@
             "grade": "85%",
             "logo": "example-logo.png",
             "id": 2
+        },
+        {
+            "course": "Engineering",
+            "school": "NYU",
+            "start_date": "October 2022",
+            "end_date": "August 2024",
+            "grade": "86%",
+            "logo": "example-logo.png",
+            "id": 3
+        },
+        {
+            "course": "Engineering",
+            "school": "NYU",
+            "start_date": "October 2022",
+            "end_date": "August 2024",
+            "grade": "86%",
+            "logo": "example-logo.png",
+            "id": 4
+        },
+        {
+            "course": "Engineering",
+            "school": "NYU",
+            "start_date": "October 2022",
+            "end_date": "August 2024",
+            "grade": "86%",
+            "logo": "example-logo.png",
+            "id": 5
         }
     ],
     "skill": [
         {
             "name": "Python",
             "proficiency": "1-2 Years",
+            "logo": "example-logo.png"
+        },
+        {
+            "name": "Java",
+            "proficiency": "3 Years",
             "logo": "example-logo.png"
         }
     ]

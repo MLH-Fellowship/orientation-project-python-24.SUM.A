@@ -12,12 +12,13 @@ class Experience:
     '''
     Experience Class
     '''
-    title: str
-    company: str
-    start_date: str
-    end_date: str
-    description: str
-    logo: str
+    title: str = field(default="")
+    company: str = field(default="")
+    start_date: str = field(default="")
+    end_date: str = field(default="")
+    description: str = field(default="")
+    logo: str = field(default="")
+    id: int = field(default=1)
 
 
 @dataclass
