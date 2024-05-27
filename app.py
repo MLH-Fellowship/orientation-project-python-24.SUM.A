@@ -69,8 +69,9 @@ def get_experience(index):
     Handle get request for single experience by index
     '''
     total_length = len(data['experience'])
-    if 0 <= index < total_length:
-        return jsonify(data["experience"][index])
+    if 0 < index <= total_length:
+        # id in data.json are 1 indexed 
+        return jsonify(data["experience"][index-1])
     return jsonify({'error': 'Invalid Index'}), 400
 
 
