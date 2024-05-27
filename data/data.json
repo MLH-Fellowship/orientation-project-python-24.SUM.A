@@ -71,6 +71,15 @@
             "description": "Writing JavaScript Code",
             "logo": "example-logo.png",
             "id": 8
+        },
+        {
+            "title": "Software Developer",
+            "company": "A Cooler Company",
+            "start_date": "October 2022",
+            "end_date": "Present",
+            "description": "Writing JavaScript Code",
+            "logo": "example-logo.png",
+            "id": 9
         }
     ],
     "education": [
@@ -118,6 +127,15 @@
             "grade": "86%",
             "logo": "example-logo.png",
             "id": 5
+        },
+        {
+            "course": "Engineering",
+            "school": "NYU",
+            "start_date": "October 2022",
+            "end_date": "August 2024",
+            "grade": "86%",
+            "logo": "example-logo.png",
+            "id": 6
         }
     ],
     "skill": [
@@ -129,6 +147,11 @@
         {
             "name": "Java",
             "proficiency": "3 Years",
+            "logo": "example-logo.png"
+        },
+        {
+            "name": "JavaScript",
+            "proficiency": "2-4 years",
             "logo": "example-logo.png"
         }
     ]
