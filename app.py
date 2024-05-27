@@ -52,9 +52,9 @@ def experience():
             if not index.isnumeric():
                 return jsonify({"error": "Invalid Index"}), 400
             
-        if 0 < int(index) <= len(data.get("experience")):
+        if 0 < int(index) <= len(data["experience"]):
             # ids in data.json are 1 indexed
-            data.get("experience").pop(int(index)-1)
+            data["experience"].pop(int(index)-1)
             save_data('data/data.json', data)
             return jsonify({"message": "Successfully deleted"}), 200
 
