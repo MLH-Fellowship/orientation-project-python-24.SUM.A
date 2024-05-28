@@ -17,7 +17,7 @@ def hello_world():
     return jsonify({"message": "Hello, World!"})
 
 
-@app.route('/resume/experience', methods=['GET', 'POST', 'DELETE'])
+@app.route('/resume/experience', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def experience():
     '''
     Handle experience requests
@@ -55,6 +55,24 @@ def experience():
         data['experience'].append(new_experience)
         save_data('data/data.json', data)
         return jsonify({'id': new_id}), 201
+    
+    if request.method == "PUT":
+        index = request.args.get("index")
+        if index is None:
+            return jsonify({"error": 'Index not provided'}), 400
+        if not index.isnumeric():
+            return jsonify({"error": "Index must be a number"}), 400
+        
+        index = int(index)
+        if not (0 < index <= len(data["experience"])):
+            return jsonify({"error": 'Index not in range'}), 400
+        
+        updated_experience_data = request.json
+        updated_experience_data['id'] = index
+        updated_experience = Experience(**updated_experience_data)
+        data["experience"][index - 1] = updated_experience
+        save_data('data/data.json', data)
+        return jsonify(data["experience"][index - 1]), 200
     
     if request.method == 'DELETE':
         index = request.args.get("index")
