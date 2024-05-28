@@ -24,6 +24,17 @@ def experience():
     '''
 
     if request.method == "GET":
+        index = request.args.get("index")
+        # check index is valid number
+        if index is not None:
+            if not index.isnumeric():
+                return jsonify({"error": "Index must be a number"}), 400
+            if 0 < int(index) <= len(data["experience"]):
+                # ids in data.json are 1 indexed
+                return jsonify(data["experience"][int(index)-1]), 200
+            return jsonify({"error": 'Index not in range'}), 400
+
+        # if no index, return all experiences
         return jsonify([edu.__dict__ for edu in data['experience']])
 
     if request.method == "POST":
@@ -50,7 +61,8 @@ def experience():
         # check index is valid number
         if index is not None:
             if not index.isnumeric():
-                return jsonify({"error": "Invalid Index"}), 400
+                return jsonify({"error": "Index must be a number"}), 400
+            return jsonify({"error": "Invalid Index"}), 400
             
         if 0 < int(index) <= len(data["experience"]):
             # ids in data.json are 1 indexed
@@ -58,21 +70,9 @@ def experience():
             save_data('data/data.json', data)
             return jsonify({"message": "Successfully deleted"}), 200
 
-        return jsonify({"error": 'Invalid Index'}), 400
+        return jsonify({"error": 'Index not in range'}), 400
 
     return jsonify({'error': 'Method not allowed'}), 405
-
-
-@app.route('/resume/experience/<int:index>', methods = ['GET'])
-def get_experience(index):
-    '''
-    Handle get request for single experience by index
-    '''
-    total_length = len(data['experience'])
-    if 0 < index <= total_length:
-        # id in data.json are 1 indexed 
-        return jsonify(data["experience"][index-1])
-    return jsonify({'error': 'Invalid Index'}), 400
 
 
 @app.route('/resume/education', methods=['GET', 'POST'])
