@@ -17,13 +17,24 @@ def hello_world():
     return jsonify({"message": "Hello, World!"})
 
 
-@app.route('/resume/experience', methods=['GET', 'POST'])
+@app.route('/resume/experience', methods=['GET', 'POST', 'DELETE'])
 def experience():
     '''
     Handle experience requests
     '''
 
     if request.method == "GET":
+        index = request.args.get("index")
+        # check index is valid number
+        if index is not None:
+            if not index.isnumeric():
+                return jsonify({"error": "Index must be a number"}), 400
+            if 0 < int(index) <= len(data["experience"]):
+                # ids in data.json are 1 indexed
+                return jsonify(data["experience"][int(index)-1]), 200
+            return jsonify({"error": 'Index not in range'}), 400
+
+        # if no index, return all experiences
         return jsonify([edu.__dict__ for edu in data['experience']])
 
     if request.method == "POST":
@@ -43,10 +54,26 @@ def experience():
         
         data['experience'].append(new_experience)
         save_data('data/data.json', data)
-        
         return jsonify({'id': new_id}), 201
     
+    if request.method == 'DELETE':
+        index = request.args.get("index")
+        # check index is valid number
+        if index is not None:
+            if not index.isnumeric():
+                return jsonify({"error": "Index must be a number"}), 400
+            return jsonify({"error": "Invalid Index"}), 400
+            
+        if 0 < int(index) <= len(data["experience"]):
+            # ids in data.json are 1 indexed
+            data["experience"].pop(int(index)-1)
+            save_data('data/data.json', data)
+            return jsonify({"message": "Successfully deleted"}), 200
+
+        return jsonify({"error": 'Index not in range'}), 400
+
     return jsonify({'error': 'Method not allowed'}), 405
+
 
 @app.route('/resume/education', methods=['GET', 'POST'])
 def education():
