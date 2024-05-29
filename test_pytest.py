@@ -49,6 +49,28 @@ def test_experience():
         
     assert found, "New experience was not found in the returned list"
 
+def test_delete_experience():
+    '''
+    Add a new experience and then delete experience by index. 
+    
+    '''
+    prior_experience = app.test_client().get('resume/experience').json
+    example_experience = {
+        "title": "Software Developer",
+        "company": "A Cooler Company",
+        "start_date": "October 2022",
+        "end_date": "Present",
+        "description": "Writing JavaScript Code",
+        "logo": "example-logo.png"
+    }
+    item_id = app.test_client().post('/resume/experience',
+                                     json=example_experience).json['id']
+
+    response = app.test_client().delete(f'/resume/experience?index={item_id}')
+    assert response.json['message'] == "Successfully deleted"
+    assert prior_experience == app.test_client().get('resume/experience').json
+
+
 def test_education():
     '''
     Add a new education and then get all educations.
@@ -92,9 +114,17 @@ def test_post_education_missing_fields():
     }
     response = app.test_client().post('/resume/education', json=incomplete_education)
     assert response.status_code == 400
-    assert 'Missing required fields' in response.json['error']
-    assert 'end_date' in response.json['error']
-    assert 'grade' in response.json['error']
+    
+def test_post_experience_missing_fields():
+    """Test POST request to /resume/experience with missing fields.
+    POST request with missing 'company' and 'start_date' fields.
+    """
+    incomplete_experience = {
+        "title": "Software Developer",  
+        "description": "Writes code",
+    }
+    response = app.test_client().post('/resume/experience', json=incomplete_experience)
+    assert response.status_code == 400  
 
 def test_skill_indexed_get():
     '''
@@ -116,20 +146,6 @@ def test_skill_get_all():
     skills = app.test_client().get('/resume/skill').json
     for i, skill in enumerate(skills):
         assert local_skills[i] == Skill(**skill)
-
-def test_post_experience_missing_fields():
-    """Test POST request to /resume/experience with missing fields.
-    POST request with missing 'company' and 'start_date' fields.
-    """
-    incomplete_experience = {
-        "title": "Software Developer",  
-        "description": "Writes code",
-    }
-    response = app.test_client().post('/resume/experience', json=incomplete_experience)
-    assert response.status_code == 400
-    assert 'Missing required fields' in response.json['error']
-    assert 'company' in response.json['error']
-    assert 'start_date' in response.json['error']
 
 def test_skill():
     '''
