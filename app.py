@@ -112,7 +112,6 @@ def education():
                 return jsonify({"error": "Index must be a number"}), 400
             
             if 0 < int(index) <= len(data["education"]):
-                print("yo")
                 # ids in data.json are 1 indexed
                 data["education"].pop(int(index)-1)
                 save_data('data/data.json', data)
