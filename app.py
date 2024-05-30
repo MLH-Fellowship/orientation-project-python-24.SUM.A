@@ -39,21 +39,22 @@ def experience():
 
     if request.method == "POST":
         required_fields = ['title', 'company', 'start_date', 'end_date', 'description', 'logo']
-        
+
         if not request.json:
             return jsonify({'error': 'No data provided'}), 400
-        
+
         missing_fields = [field for field in required_fields if field not in request.json]
         if missing_fields:
             return jsonify({'error': 'Missing required fields'}), 400
-        
+
         new_id = generate_id(data, 'experience')
         new_experience_data = request.json
         new_experience_data['id'] = new_id
         new_experience = Experience(**new_experience_data)
-        
+
         data['experience'].append(new_experience)
         save_data('data/data.json', data)
+
         return jsonify({'id': new_id}), 201
     
     if request.method == "PUT":
@@ -98,8 +99,17 @@ def education():
     Handle education requests
     """
     if request.method == 'GET':
-        # convert education data to dictionary and return as JSON
-        return jsonify([edu.__dict__ for edu in data['education']])
+        index = request.args.get("index")
+        if index is not None: #check if requesting a specific index
+            if not index.isnumeric(): #is index a number
+                return jsonify("Incorrect index"), 400
+
+            #check if index is inside the bounds of the list
+            if int(index) < 0 or int(index) >= len(data.get("skill")):
+                return jsonify("Incorrect request, index out of bounds"), 400
+            return jsonify(data.get("education")[int(index)]), 200
+
+        return jsonify(data.get("education")), 200 #return the whole list
 
     if request.method == 'POST':
         required_fields = ['course', 'school', 'start_date', 'end_date', 'grade', 'logo']
@@ -137,8 +147,7 @@ def education():
 
         return jsonify({"error": 'Invalid Index'}), 400
     
-    return jsonify({'error': 'Method not allowed'}), 405 
-
+    return jsonify({'error': 'Method not allowed'}), 405
 
 
 @app.route('/resume/skill', methods=['GET', 'POST', 'DELETE'])
@@ -151,12 +160,12 @@ def skill():
         if index is not None: #check if requesting a specific index
             if not index.isnumeric(): #is index a number
                 return jsonify("Incorrect index"), 400
-            
+
             #check if index is inside the bounds of the list
-            if int(index) < 0 or int(index) >= len(data.get("skill")): 
+            if int(index) < 0 or int(index) >= len(data.get("skill")):
                 return jsonify("Incorrect request, index out of bounds"), 400
             return jsonify(data.get("skill")[int(index)]), 200
-        
+
         return jsonify(data.get("skill")), 200 #return the whole list
 
     if request.method == 'POST':
@@ -172,21 +181,21 @@ def skill():
         save_data('data/data.json', data)
 
         return jsonify({'id': len(data.get("skill")) - 1}), 200
-    
+
     if request.method == 'DELETE':
         index = request.args.get("index")
         if index is not None: #check if requesting a specific index
             if not index.isnumeric(): #is index a number
                 return jsonify("Incorrect index"), 400
-            
+
             #check if index is inside the bounds of the list
-            if int(index) < 0 or int(index) >= len(data.get("skill")): 
+            if int(index) < 0 or int(index) >= len(data.get("skill")):
                 return jsonify("Incorrect request, index out of bounds"), 400
-            
+
             data.get("skill").pop(int(index))
             save_data('data/data.json', data)
             return jsonify({"message": "Successfully deleted"}), 200
-        
+
         return jsonify({"error": 'Invalid request'}), 400
 
     return jsonify({})
