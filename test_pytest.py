@@ -102,6 +102,29 @@ def test_education():
         
     assert found, "New education was not found in the returned list"
 
+
+def test_delete_education():
+    '''
+    Add a new education and then delete education by index. 
+    
+    '''
+    prior_education = app.test_client().get('resume/education').json
+    example_education = {
+        "course": "Engineering",
+        "school": "NYU",
+        "start_date": "October 2022",
+        "end_date": "August 2024",
+        "grade": "86%",
+        "logo": "example-logo.png"
+    }
+    item_id = app.test_client().post('/resume/education',
+                                     json=example_education).json['id']
+
+    response = app.test_client().delete(f'/resume/education?index={item_id}')
+    assert response.json['message'] == "Successfully deleted"
+    assert prior_education == app.test_client().get('resume/education').json
+
+
 def test_post_education_missing_fields():
     """Test POST request to /resume/education with missing fields.
     POST request with missing 'end_date' and 'grade' fields.
@@ -193,3 +216,53 @@ def test_correct_spelling():
     text = "speling"
     expected_output = "spelling"
     assert correct_spelling(text) == expected_output
+    
+def test_update_experience():
+    '''
+    Test the updating functionality of experience
+    '''
+    # Post a new experience
+    example_experience = {
+        "title": "Example Developer",
+        "company": "Example Company",
+        "start_date": "October 2022",
+        "end_date": "Present",
+        "description": "Writing JavaScript Code",
+        "logo": "example-logo.png"
+    }
+
+    updated_experience = {
+        "title": "Roblox Developer",
+        "company": "Roblox",
+        "start_date": "2022-01-01",
+        "end_date": "2023-01-01",
+        "description": "Updated description",
+        "logo": "updated-logo-url"
+    }
+
+    # Post a new experience
+    post_response = app.test_client().post('/resume/experience', json=example_experience)
+    assert post_response.status_code == 201
+    new_experience_id = post_response.json['id']
+
+    # Update the experience
+    update_response = app.test_client().put(f'/resume/experience?index={new_experience_id}', json=updated_experience)
+    assert update_response.status_code == 200
+
+    # Check if the experience was updated correctly
+    get_response = app.test_client().get('/resume/experience')
+    experiences = get_response.json
+    found = False
+
+    for experience in experiences:
+        if experience['id'] == new_experience_id:
+            for key, value in updated_experience.items():
+                assert experience[key] == value
+            found = True
+            break
+
+    assert found, "Updated experience was not found in the returned list"
+    
+    
+    
+    
