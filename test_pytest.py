@@ -102,6 +102,29 @@ def test_education():
         
     assert found, "New education was not found in the returned list"
 
+
+def test_delete_education():
+    '''
+    Add a new education and then delete education by index. 
+    
+    '''
+    prior_education = app.test_client().get('resume/education').json
+    example_education = {
+        "course": "Engineering",
+        "school": "NYU",
+        "start_date": "October 2022",
+        "end_date": "August 2024",
+        "grade": "86%",
+        "logo": "example-logo.png"
+    }
+    item_id = app.test_client().post('/resume/education',
+                                     json=example_education).json['id']
+
+    response = app.test_client().delete(f'/resume/education?index={item_id}')
+    assert response.json['message'] == "Successfully deleted"
+    assert prior_education == app.test_client().get('resume/education').json
+
+
 def test_post_education_missing_fields():
     """Test POST request to /resume/education with missing fields.
     POST request with missing 'end_date' and 'grade' fields.

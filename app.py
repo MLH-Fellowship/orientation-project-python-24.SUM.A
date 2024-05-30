@@ -80,20 +80,19 @@ def experience():
         if index is not None:
             if not index.isnumeric():
                 return jsonify({"error": "Index must be a number"}), 400
-            return jsonify({"error": "Invalid Index"}), 400
             
-        if 0 < int(index) <= len(data["experience"]):
-            # ids in data.json are 1 indexed
-            data["experience"].pop(int(index)-1)
-            save_data('data/data.json', data)
-            return jsonify({"message": "Successfully deleted"}), 200
+            if 0 < int(index) <= len(data["experience"]):
+                # ids in data.json are 1 indexed
+                data["experience"].pop(int(index)-1)
+                save_data('data/data.json', data)
+                return jsonify({"message": "Successfully deleted"}), 200
 
-        return jsonify({"error": 'Index not in range'}), 400
+        return jsonify({"error": 'Invalid Index'}), 400
 
     return jsonify({'error': 'Method not allowed'}), 405
 
 
-@app.route('/resume/education', methods=['GET', 'POST'])
+@app.route('/resume/education', methods=['GET', 'POST', 'DELETE'])
 def education():
     """
     Handle education requests
@@ -122,6 +121,21 @@ def education():
         save_data('data/data.json', data)
 
         return jsonify({'id': new_id}), 201
+    
+    if request.method == 'DELETE':
+        index = request.args.get("index")
+        # check index is valid number
+        if index is not None:
+            if not index.isnumeric():
+                return jsonify({"error": "Index must be a number"}), 400
+            
+            if 0 < int(index) <= len(data["education"]):
+                # ids in data.json are 1 indexed
+                data["education"].pop(int(index)-1)
+                save_data('data/data.json', data)
+                return jsonify({"message": "Successfully deleted"}), 200
+
+        return jsonify({"error": 'Invalid Index'}), 400
     
     return jsonify({'error': 'Method not allowed'}), 405 
 
